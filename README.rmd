@@ -62,7 +62,7 @@ Examine metaData a bit:
 ```{r}
 eBdat$metaData[1:3,]
 
-plot(eBdat$metaData$long,eBdat$metaData$lat,xlab="longitude",ylab="longitude") 
+plot(eBdat$metaData$long,eBdat$metaData$lat,xlab="longitude",ylab="latitude") 
 ```
 
 Examine obsData a bit:

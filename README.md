@@ -48,16 +48,14 @@ their API. The functions include the following:
 Load in the functions and see what they are:
 
 ``` r
-source("https://raw.githubusercontent.com/pdhoff/eBird-Abundance-Data/master/eBirdAPI.r")
+#source("https://raw.githubusercontent.com/pdhoff/eBirdGetData/master/eBirdAPI.r")
 
-#source("eBirdAPI.r")
+source("eBirdAPI.r")
 
 objects()
 ```
 
-    ##  [1] "counties"       "dates"          "eBdat"          "eBirdGetData"  
-    ##  [5] "eBirdGetURL"    "eBirdMergeData" "eBirdNames"     "i"             
-    ##  [9] "j"              "obsPH"
+    ## [1] "eBirdGetData"   "eBirdGetURL"    "eBirdMergeData" "eBirdNames"
 
 Download and merge one week of data from two NC counties (Durham and
 Beaufort):
@@ -101,7 +99,7 @@ eBdat$metaData[1:3,]
     ## 3 S68209974 2020-05-01 17:27    0.600 36.00304 -78.94707   US US-NC US-NC-063
 
 ``` r
-plot(eBdat$metaData$long,eBdat$metaData$lat,xlab="longitude",ylab="longitude") 
+plot(eBdat$metaData$long,eBdat$metaData$lat,xlab="longitude",ylab="latitude") 
 ```
 
 ![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->

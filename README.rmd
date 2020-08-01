@@ -1,0 +1,85 @@
+---
+title: "eBird Abundance Data"
+author: "Peter Hoff"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: github_document
+---
+
+### Summary
+
+The file `eBirdAPI.r` provides a few R functions to download and wrangle data from the [eBird project](https://ebird.org/science/download-ebird-data-products), 
+using their API. The functions include the following:
+
+* `eBirdGetURL`: Download generic data and leave it in json/list format
+* `eBirdGetData` : Download *complete* checklists from a given region on a given date. Returns a list that includes 
+  * `obsData`: numeric matrix of bird counts by checklist and species;
+  * `metaData`: dataframe of checklist metadata. 
+* `eBirdMergeData`: Merge two lists that have the format returned by `eBirdGetData`;
+* `eBirdNames` : Not a function, but a table that matches the bird codes used by eBird to common names. 
+
+### Comments:
+
+1) To download data from eBird you need to have an eBird API key, 
+and set it as an 
+environment variable with `Sys.setenv(EBIRD_KEY = "xxxxxxxx")`.   
+2) There are some duplicates (friends who collect and report the same data).
+This should be fixed in the future. 
+3) Some birders just report presence without a numeric count. For these cases, numeric counts are imputed, but all imputed values end in `.5` so that they can be identified. 
+4) The eBird API only allows 200 checklists to be downloaded per request. 
+ If this limit is reached then only the first 200 lists are included in the 
+ dataset, and a warning message is printed.    
+5) There exist a couple of R packages for accessing eBird data: [rebird](https://github.com/ropensci/rebird) and [auk](https://github.com/CornellLabofOrnithology/auk/). The latter assumes you have already downloaded a super-large eBird database. The former uses the API (like the code in this repo), but 
+doesn't seem to provide access to information on 
+checklist completeness (which is important to know for statistical analysis). 
+
+
+### How to use 
+
+Load in the functions and see what they are:
+```{r}
+#source("https://raw.githubusercontent.com/pdhoff/eBirdGetData/master/eBirdAPI.r")
+
+source("eBirdAPI.r")
+
+objects()
+```
+
+Download and merge one week of data from two NC counties (Durham and Beaufort):
+
+```{r}
+counties<-c("US-NC-063","US-NC-013")
+dates<-as.Date(0:6,origin = "2020-05-01")
+
+eBdat<-NULL
+for(i in seq_along(counties)){
+  for(j in seq_along(dates)){
+    eBdat<-eBirdMergeData(eBdat,eBirdGetData(region=counties[i],date=dates[j]))
+    cat(counties[i],dates[j],"\n")
+}}
+```
+
+Examine metaData a bit:
+```{r}
+eBdat$metaData[1:3,]
+
+plot(eBdat$metaData$long,eBdat$metaData$lat,xlab="longitude",ylab="longitude") 
+```
+
+Examine obsData a bit:
+```{r}
+eBdat$obsData[1:3,1:6] 
+
+## Obtain counts per hour of effort 
+obsPH<-sweep(eBdat$obsData,1,eBdat$metaData$duration,"/") 
+
+## Top 20 birds in Durham
+sort(apply(obsPH[eBdat$metaData$loc3==counties[1],],2,mean),decreasing=TRUE)[1:20]  
+
+## Top 20 birds in Beaufort 
+sort(apply(obsPH[eBdat$metaData$loc3==counties[2],],2,mean),decreasing=TRUE)[1:20]  
+```
+
+
+
+
+

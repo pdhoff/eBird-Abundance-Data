@@ -44,10 +44,11 @@ source("eBirdAPI.r")
 objects()
 ```
 
-Download and merge one week of data from two NC counties (Durham and Beaufort):
+Download and merge one week of data from some NC counties:
 
 ```{r}
-counties<-c("US-NC-063","US-NC-013")
+# Durham, Brunswick, Beaufort, Dare, Wake and Orange counties
+counties<-c("US-NC-063","US-NC-019","US-NC-013","US-NC-055","US-NC-183","US-NC-135") 
 dates<-as.Date(0:6,origin = "2020-05-01")
 
 eBdat<-NULL

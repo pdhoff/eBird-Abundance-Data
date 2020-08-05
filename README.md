@@ -1,7 +1,7 @@
 eBird Abundance Data
 ================
 Peter Hoff
-04 August, 2020
+05 August, 2020
 
 ### Summary
 
@@ -48,7 +48,7 @@ their API. The functions include the following:
 Load in the functions and see what they are:
 
 ``` r
-#source("https://raw.githubusercontent.com/pdhoff/eBirdGetData/master/eBirdAPI.r")
+#source("https://raw.githubusercontent.com/pdhoff/eBird-Abundance-Data/master/eBirdAPI.r")
 
 source("eBirdAPI.r")
 

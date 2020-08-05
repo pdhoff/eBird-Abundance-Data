@@ -37,7 +37,7 @@ checklist completeness (which is important to know for statistical analysis).
 
 Load in the functions and see what they are:
 ```{r}
-#source("https://raw.githubusercontent.com/pdhoff/eBirdGetData/master/eBirdAPI.r")
+#source("https://raw.githubusercontent.com/pdhoff/eBird-Abundance-Data/master/eBirdAPI.r")
 
 source("eBirdAPI.r")
 

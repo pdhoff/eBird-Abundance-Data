@@ -102,7 +102,15 @@ eBirdGetData<-function(region,date,commonName=exists("eBirdNames")){
   ## combine obs data 
   bnames<-sort(unique(unlist(sapply(odat,function(x){x$speciesCode})))) 
   bnull<-rep(0,length(bnames)) ; names(bnull)<-bnames 
-  odat<-t(sapply(odat,function(x){ y<-bnull ; y[match(x[,1],bnames)]<-x[,2] ; y } ) )
+  odat<-t(sapply(odat,function(x){ y<-bnull ; y[match(x[,1],bnames)]<-x[,2] ; y } ) ) 
+
+  # MC edit 2021-04-30
+  if(dim(odat)[1] == 1 & dim(odat)[2] > 1 & length(unique(bnames)) == 1){
+    odat <- t(odat)
+    colnames(odat) <- bnames
+  }
+  # end MC edit 
+
   rownames(odat)<-mdat$id 
   if(ncol(odat)==0){ odat<-matrix(nrow=0,ncol=0) }
 
